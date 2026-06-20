@@ -1,0 +1,81 @@
+## Master .gitignore for ASP.NET Core with SQL File Database
+
+# Linux trash can
+.Directory
+
+# ==============
+# Operating System Files
+# ==============
+*.DS_Store
+Thumbs.db
+db.ini
+*.desktop
+
+# ==============
+# User-specific files
+# ==============
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ==============
+# Build results
+# ==============
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ex]it/
+
+# ==============
+# ASP.NET Core & Web tools
+# ==============
+project.lock.json
+project.fragment.lock.json
+artifacts/
+out/
+**/dist/
+**/node_modules/
+.data/
+
+# ==============
+# SQL File Databases (Local Databases)
+# ==============
+# Exclude actual data files so you don't overwrite production/local data in git
+*.mdf
+*.ldf
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# ==============
+# Secrets and Environment Settings
+# ==============
+# Standard ASP.NET Core secrets manager folder (if stored locally)
+.microsoft.dotnet.secretmanager/
+# App settings containing secrets (keep appsettings.json, ignore secrets/local variants)
+appsettings.Development.json
+appsettings.Local.json
+*.secrets.json
+
+# ==============
+# Visual Studio / VS Code / Rider Cache & Tools
+# ==============
+.vs/
+.vscode/
+.idea/
+*.DotSettings.user
+_ReSharper*/
+*.opensdf
+*.sdf
+*.pidb
+*.userdiagnostics
