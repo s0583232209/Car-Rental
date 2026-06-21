@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="Car-Rental/Car-Rental.csproj" />
-  <Project Path="Controllers/Controllers.csproj" />
   <Project Path="DAL/DAL.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="5f50d21d-b775-477f-b82b-93eb8ff3b670" />
   <Project Path="Services/Services.csproj" />

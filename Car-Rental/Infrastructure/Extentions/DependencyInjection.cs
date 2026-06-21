@@ -1,10 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DAL.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Extentions
+namespace Infrastructure.Extensions;
+
+public static class DependencyInjection
 {
-    internal class DependencyInjection
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
+        var connectionString =
+            configuration.GetConnectionString("DefaultConnection");
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseMySql(
+                connectionString,
+                ServerVersion.AutoDetect(connectionString)));
+
+        return services;
     }
 }
