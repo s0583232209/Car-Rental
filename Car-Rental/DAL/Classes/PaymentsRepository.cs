@@ -7,33 +7,33 @@ namespace DAL.Repositories;
 
 public class PaymentRepository : IRepository<Payment>
 {
-    private readonly AppDbContext _ctx;
+    private readonly AppDbContext ctx;
 
-    public PaymentRepository(AppDbContext ctx) => _ctx = ctx;
+    public PaymentRepository(AppDbContext ctx) => ctx = ctx;
 
     public List<Payment> GetAll() =>
-        _ctx.Payments.Include(p => p.Rental).ToList();
+        ctx.Payments.Include(p => p.Rental).ToList();
 
     public Payment GetById(int id) =>
-        _ctx.Payments.Find(id);
+        ctx.Payments.Find(id);
 
     public bool Add(Payment payment)
     {
-        _ctx.Payments.Add(payment);
-        return _ctx.SaveChanges() > 0;
+        ctx.Payments.Add(payment);
+        return ctx.SaveChanges() > 0;
     }
 
     public bool Update(Payment payment)
     {
-        _ctx.Payments.Update(payment);
-        return _ctx.SaveChanges() > 0;
+        ctx.Payments.Update(payment);
+        return ctx.SaveChanges() > 0;
     }
 
     public bool Delete(int id)
     {
-        var p = _ctx.Payments.Find(id);
+        var p = ctx.Payments.Find(id);
         if (p == null) return false;
-        _ctx.Payments.Remove(p);
-        return _ctx.SaveChanges() > 0;
+        ctx.Payments.Remove(p);
+        return ctx.SaveChanges() > 0;
     }
 }
