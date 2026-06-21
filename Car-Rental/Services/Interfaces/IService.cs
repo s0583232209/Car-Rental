@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.DTOs;
 namespace Services.Interfaces
 {
     public interface IService<T>
@@ -11,7 +12,7 @@ namespace Services.Interfaces
         List<T> GetAll();
         T GetById(int id);
         bool Delete(int id);
-        
+        bool Update(T entity);
         T Add(T entity);
     }
 }

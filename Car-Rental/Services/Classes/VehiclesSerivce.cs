@@ -1,33 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Services.Interfaces;
-using Infrastructure;
+﻿using DAL.Interfaces;
+using DAL.Entities;
 using Infrastructure.DTOs;
-namespace Services.Classes
+using Services.Interfaces;
+using DAL.Interfaces;
+namespace Services.Classes;
+
+public class VehiclesService : IService<VehicleDTO>
 {
-    public class VehiclesSerivce : IService<VehicleDTO>
+    private readonly IVehicleRepository _repo;
+
+    public VehiclesService(IVehicleRepository repo) => _repo = repo;
+
+    public List<VehicleDTO> GetAll()
     {
-        public VehicleDTO Add(VehicleDTO entity)
+        return _repo.GetAll().Select(v => new VehicleDTO
         {
-            throw new NotImplementedException();
-        }
+            Id = v.Id,
+            Manufacturer = v.Manufacturer,
+            Model = v.Model,
+            Year = v.Year,
+            LicensePlate = v.LicensePlate,
+            DailyPrice = v.DailyPrice
+        }).ToList();
+    }
 
-        public bool Delete(int id)
+    public VehicleDTO GetById(int id)
+    {
+        var v = _repo.GetById(id);
+        if (v == null) return null;
+        return new VehicleDTO
         {
-            throw new NotImplementedException();
-        }
+            Id = v.Id,
+            Manufacturer = v.Manufacturer,
+            Model = v.Model,
+            Year = v.Year,
+            LicensePlate = v.LicensePlate,
+            DailyPrice = v.DailyPrice
+        };
+    }
 
-        public List<VehicleDTO> GetAll()
+    public bool Add(VehicleDTO dto)
+    {
+        var vehicle = new Vehicle
         {
-            throw new NotImplementedException();
-        }
+            Manufacturer = dto.Manufacturer,
+            Model = dto.Model,
+            Year = dto.Year,
+            LicensePlate = dto.LicensePlate,
+            DailyPrice = dto.DailyPrice
+        };
+        return _repo.Add(vehicle);
+    }
 
-        public VehicleDTO GetById(int id)
+    public bool Update(VehicleDTO dto)
+    {
+        var vehicle = new Vehicle
         {
-            throw new NotImplementedException();
-        }
+            Id = dto.Id,
+            Manufacturer = dto.Manufacturer,
+            Model = dto.Model,
+            Year = dto.Year,
+            LicensePlate = dto.LicensePlate,
+            DailyPrice = dto.DailyPrice
+        };
+        return _repo.Update(vehicle);
+    }
+
+    public bool Delete(int id) => _repo.Delete(id);
+
+    VehicleDTO IService<VehicleDTO>.Add(VehicleDTO entity)
+    {
+        throw new NotImplementedException();
     }
 }
