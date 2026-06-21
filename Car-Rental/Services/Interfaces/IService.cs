@@ -12,6 +12,6 @@ namespace Services.Interfaces
         T GetById(int id);
         bool Delete(int id);
         bool Update(T entity);
-        T Add(T entity);
+        bool Add(T entity);
     }
 }

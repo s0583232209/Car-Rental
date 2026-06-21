@@ -1,70 +1,130 @@
-﻿using DAL.Interfaces;
+﻿//using DAL.Interfaces;
+//using DAL.Entities;
+//using Services.DTOs;
+//using Services.Interfaces;
+//using AutoMapper;
+
+//namespace Services.Classes;
+
+//public class CustomerService : IService<CustomerDTO>
+//{
+//    private readonly IRepository<Customer> _repo;
+//    private readonly IMapper<Customer> mapper;
+//    public CustomerService(IRepository<Customer> repo) => _repo = repo;
+
+//    public List<CustomerDTO> GetAll()
+//    {
+//        var customers = _repo.GetAll();
+//        return customers.Select(c => new CustomerDTO
+//        {
+//            Id = c.Id,
+//            FullName = c.FullName,
+//            Email = c.Email,
+//            Phone = c.Phone
+//        }).ToList();
+//    }
+
+//    public CustomerDTO GetById(int id)
+//    {
+//        var c = _repo.GetById(id);
+//        if (c == null) return null;
+//        return new CustomerDTO
+//        {
+//            Id = c.Id,
+//            FullName = c.FullName,
+//            Email = c.Email,
+//            Phone = c.Phone
+//        };
+//    }
+
+//    public bool Add(CustomerDTO dto)
+//    {
+//        if (string.IsNullOrWhiteSpace(dto.FullName)) return false;
+//        var customer = new Customer
+//        {
+//            FullName = dto.FullName,
+//            Email = dto.Email,
+//            Phone = dto.Phone
+//        };
+//        return _repo.Add(customer);
+//    }
+
+//    public bool Update(CustomerDTO dto)
+//    {
+//        var customer = new Customer
+//        {
+//            Id = dto.Id,
+//            FullName = dto.FullName,
+//            Email = dto.Email,
+//            Phone = dto.Phone
+//        };
+//        return _repo.Update(customer);
+//    }
+
+//    public bool Delete(int id) => _repo.Delete(id);
+
+//    CustomerDTO IService<CustomerDTO>.Add(CustomerDTO entity)
+//    {
+//        throw new NotImplementedException();
+//    }
+//}
+using AutoMapper;
 using DAL.Entities;
+using DAL.Interfaces;
 using Services.DTOs;
 using Services.Interfaces;
-using AutoMapper;
 
 namespace Services.Classes;
 
 public class CustomerService : IService<CustomerDTO>
 {
     private readonly IRepository<Customer> _repo;
-    private readonly IMapper<Customer> mapper;
-    public CustomerService(IRepository<Customer> repo) => _repo = repo;
+    private readonly IMapper _mapper;
+
+    public CustomerService(
+        IRepository<Customer> repo,
+        IMapper mapper)
+    {
+        _repo = repo;
+        _mapper = mapper;
+    }
 
     public List<CustomerDTO> GetAll()
     {
         var customers = _repo.GetAll();
-        return customers.Select(c => new CustomerDTO
-        {
-            Id = c.Id,
-            FullName = c.FullName,
-            Email = c.Email,
-            Phone = c.Phone
-        }).ToList();
+
+        return _mapper.Map<List<CustomerDTO>>(customers);
     }
 
-    public CustomerDTO GetById(int id)
+    public CustomerDTO? GetById(int id)
     {
-        var c = _repo.GetById(id);
-        if (c == null) return null;
-        return new CustomerDTO
-        {
-            Id = c.Id,
-            FullName = c.FullName,
-            Email = c.Email,
-            Phone = c.Phone
-        };
+        var customer = _repo.GetById(id);
+
+        if (customer == null)
+            return null;
+
+        return _mapper.Map<CustomerDTO>(customer);
     }
 
     public bool Add(CustomerDTO dto)
     {
-        if (string.IsNullOrWhiteSpace(dto.FullName)) return false;
-        var customer = new Customer
-        {
-            FullName = dto.FullName,
-            Email = dto.Email,
-            Phone = dto.Phone
-        };
+        if (string.IsNullOrWhiteSpace(dto.FullName))
+            return false;
+
+        var customer = _mapper.Map<Customer>(dto);
+
         return _repo.Add(customer);
     }
 
     public bool Update(CustomerDTO dto)
     {
-        var customer = new Customer
-        {
-            Id = dto.Id,
-            FullName = dto.FullName,
-            Email = dto.Email,
-            Phone = dto.Phone
-        };
+        var customer = _mapper.Map<Customer>(dto);
+
         return _repo.Update(customer);
     }
 
-    public bool Delete(int id) => _repo.Delete(id);
-
-    CustomerDTO IService<CustomerDTO>.Add(CustomerDTO entity)
+    public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        return _repo.Delete(id);
     }
 }

@@ -11,7 +11,7 @@ namespace DAL.Entities
         public int RentalId { get; set; }
         public Rental Rental { get; set; }
 
-        public decimal Amount { get; set; }
+        public float TotalPrice { get; set; }
         public DateTime PaymentDate { get; set; }
     }
 }
