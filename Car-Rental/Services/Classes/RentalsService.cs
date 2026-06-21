@@ -234,7 +234,7 @@ public class RentalService : IService<RentalDTO>
         var rental = _mapper.Map<Rental>(dto);
 
         rental.StartDate = DateTime.UtcNow;
-        rental.TotalPrice = 0;
+        //rental.TotalPrice = 0;
 
      return _repo.Add(rental);
     }
@@ -252,8 +252,8 @@ public class RentalService : IService<RentalDTO>
 
         var rental = _mapper.Map<Rental>(dto);
 
-        rental.TotalPrice =
-            days * (vehicle?.DailyPrice ?? 0);
+        //rental.TotalPrice =
+        //    days * (vehicle?.DailyPrice ?? 0);
 
         return _repo.Update(rental);
     }

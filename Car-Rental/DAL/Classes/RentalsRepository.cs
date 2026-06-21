@@ -9,7 +9,7 @@ public class RentalRepository : IRepository<Rental>
 {
     private readonly AppDbContext ctx;
 
-    public RentalRepository(AppDbContext ctx) => ctx = ctx;
+    public RentalRepository(AppDbContext ctx) => this.ctx = ctx;
 
     public List<Rental> GetAll() =>
         ctx.Rentals

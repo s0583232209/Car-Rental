@@ -3,7 +3,7 @@ using DAL.Entities;
 using Services.DTOs;
 
 
-namespace VehicleRental.BLL.Mapping;
+namespace Services.Mapping;
 
 public class MappingProfile : Profile
 {

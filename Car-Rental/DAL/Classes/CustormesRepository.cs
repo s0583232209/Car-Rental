@@ -9,7 +9,7 @@ public class CustomerRepository : IRepository<Customer>
 {
     private readonly AppDbContext ctx;
 
-    public CustomerRepository(AppDbContext ctx) => ctx = ctx;
+    public CustomerRepository(AppDbContext ctx) => this.ctx = ctx;
 
     public List<Customer> GetAll() =>
         ctx.Customers.Include(c => c.Rentals).ToList();
