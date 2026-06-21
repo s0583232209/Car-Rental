@@ -1,39 +1,60 @@
-﻿using DAL.Data;
-using DAL.Entities;
-using DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Services.DTOs;
+using Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace DAL.Repositories;
+namespace API.Controllers;
 
-public class PaymentRepository : IRepository<Payment>
+[ApiController]
+[Route("api/[controller]")]
+public class CustomersController : ControllerBase
 {
-    private readonly AppDbContext _ctx;
+    private readonly IService<CustomerDTO> _service;
 
-    public PaymentRepository(AppDbContext ctx) => _ctx = ctx;
-
-    public List<Payment> GetAll() =>
-        _ctx.Payments.Include(p => p.Rental).ToList();
-
-    public Payment GetById(int id) =>
-        _ctx.Payments.Find(id);
-
-    public bool Add(Payment payment)
+    public CustomersController(IService<CustomerDTO> service)
     {
-        _ctx.Payments.Add(payment);
-        return _ctx.SaveChanges() > 0;
+        _service = service;
     }
 
-    public bool Update(Payment payment)
+    // GET api/customers
+    [HttpGet]
+    public IActionResult GetAll()
     {
-        _ctx.Payments.Update(payment);
-        return _ctx.SaveChanges() > 0;
+        var customers = _service.GetAll();
+        return Ok(customers);
     }
 
-    public bool Delete(int id)
+    // GET api/customers/5
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
     {
-        var p = _ctx.Payments.Find(id);
-        if (p == null) return false;
-        _ctx.Payments.Remove(p);
-        return _ctx.SaveChanges() > 0;
+        var customer = _service.GetById(id);
+        if (customer == null) return NotFound();
+        return Ok(customer);
+    }
+
+    // POST api/customers
+    [HttpPost]
+    public IActionResult Create(CustomerDTO dto)
+    {
+        bool ok = _service.Add(dto);
+        if (!ok) return BadRequest();
+        return Ok(dto);
+    }
+
+    // PUT api/customers/5
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, CustomerDTO dto)
+    {
+        if (id != dto.Id) return BadRequest();
+        bool ok = _service.Update(dto);
+        return ok ? NoContent() : NotFound();
+    }
+
+    // DELETE api/customers/5
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        bool ok = _service.Delete(id);
+        return ok ? NoContent() : NotFound();
     }
 }

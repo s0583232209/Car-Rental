@@ -8,10 +8,10 @@ namespace DAL.Entities
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
+        ..public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public int CarId { get; set; }
+        //public int CarId { get; set; }
         public Vehicle Car { get; set; }
 
         public DateTime StartDate { get; set; }

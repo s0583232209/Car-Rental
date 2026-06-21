@@ -1,22 +1,22 @@
 ﻿using DAL.Interfaces;
 using DAL.Entities;
-using Infrastructure.DTOs;
+using Services.DTOs;
 using Services.Interfaces;
 
 namespace Services.Classes;
 
 public class PaymentService : IService<PaymentDTO>
 {
-    private readonly IPaymentRepository _repo;
+    private readonly IRepository<Payment> _repo;
 
-    public PaymentService(IPaymentRepository repo) => _repo = repo;
+    public PaymentService(IRepository<Payment> repo) => _repo = repo;
 
     public List<PaymentDTO> GetAll()
     {
         return _repo.GetAll().Select(p => new PaymentDTO
         {
             Id = p.Id,
-            RentalId = p.RentalId,
+            RentalId = new Rental(p.RentalId),
             Amount = p.Amount,
             PaymentDate = p.PaymentDate
         }).ToList();

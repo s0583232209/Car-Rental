@@ -1,15 +1,14 @@
 ﻿using DAL.Interfaces;
 using DAL.Entities;
-using Infrastructure.DTOs;
+using Services.DTOs;
 using Services.Interfaces;
-using DAL.Interfaces;
 namespace Services.Classes;
 
 public class VehiclesService : IService<VehicleDTO>
 {
-    private readonly IVehicleRepository _repo;
+    private readonly IRepository<Vehicle> _repo;
 
-    public VehiclesService(IVehicleRepository repo) => _repo = repo;
+    public VehiclesService(IRepository<Vehicle> repo) => _repo = repo;
 
     public List<VehicleDTO> GetAll()
     {

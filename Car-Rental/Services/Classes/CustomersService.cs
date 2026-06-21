@@ -1,15 +1,16 @@
 ﻿using DAL.Interfaces;
 using DAL.Entities;
-using Infrastructure.DTOs;
+using Services.DTOs;
 using Services.Interfaces;
+using AutoMapper;
 
 namespace Services.Classes;
 
 public class CustomerService : IService<CustomerDTO>
 {
-    private readonly ICustomerRepository _repo;
-
-    public CustomerService(ICustomerRepository repo) => _repo = repo;
+    private readonly IRepository<Customer> _repo;
+    private readonly IMapper<Customer> mapper;
+    public CustomerService(IRepository<Customer> repo) => _repo = repo;
 
     public List<CustomerDTO> GetAll()
     {
@@ -61,4 +62,9 @@ public class CustomerService : IService<CustomerDTO>
     }
 
     public bool Delete(int id) => _repo.Delete(id);
+
+    CustomerDTO IService<CustomerDTO>.Add(CustomerDTO entity)
+    {
+        throw new NotImplementedException();
+    }
 }

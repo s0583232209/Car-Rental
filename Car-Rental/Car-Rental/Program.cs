@@ -41,7 +41,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         connectionString,
         ServerVersion.AutoDetect(connectionString)
     ));
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddControllers();
 
 var app = builder.Build();
