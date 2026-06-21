@@ -1,33 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Services.Interfaces;
-using Infrastructure;
+﻿using DAL.Interfaces;
+using DAL.Entities;
 using Infrastructure.DTOs;
-namespace Services.Classes
+using Services.Interfaces;
+
+namespace Services.Classes;
+
+public class PaymentService : IService<PaymentDTO>
 {
-    public class PaymentsService : IService<PaymentDTO>
+    private readonly IPaymentRepository _repo;
+
+    public PaymentService(IPaymentRepository repo) => _repo = repo;
+
+    public List<PaymentDTO> GetAll()
     {
-        public PaymentDTO Add(PaymentDTO entity)
+        return _repo.GetAll().Select(p => new PaymentDTO
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<PaymentDTO> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public PaymentDTO GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            Id = p.Id,
+            RentalId = p.RentalId,
+            Amount = p.Amount,
+            PaymentDate = p.PaymentDate
+        }).ToList();
     }
+
+    public PaymentDTO GetById(int id)
+    {
+        var p = _repo.GetById(id);
+        if (p == null) return null;
+        return new PaymentDTO
+        {
+            Id = p.Id,
+            RentalId = p.RentalId,
+            Amount = p.Amount,
+            PaymentDate = p.PaymentDate
+        };
+    }
+
+    public bool Add(PaymentDTO dto)
+    {
+        var payment = new Payment
+        {
+            RentalId = dto.RentalId,
+            Amount = dto.Amount,
+            PaymentDate = DateTime.UtcNow
+        };
+        return _repo.Add(payment);
+    }
+
+    public bool Update(PaymentDTO dto) => false; // תשלומים לא נערכים
+
+    public bool Delete(int id) => _repo.Delete(id);
 }

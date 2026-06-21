@@ -14,5 +14,5 @@ public interface IVehicleRepository
     Task<IEnumerable<Vehicle>> GetAvailable();
     Task Add(Vehicle vehicle);
     Task Update(Vehicle vehicle);
-    Task<IEnumerable<bool>> Delete(int id);
+    Task Delete(int id);
 }

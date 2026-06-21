@@ -1,46 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Services.Interfaces;
-using Infrastructure;
+﻿using DAL.Interfaces;
+using DAL.Entities;
 using Infrastructure.DTOs;
-using DAL.Interfaces;
-namespace Services.Classes
+using Services.Interfaces;
+
+namespace Services.Classes;
+
+public class CustomerService : IService<CustomerDTO>
 {
-    public class CustomerSerivce : IService<CustomerDTO>
+    private readonly ICustomerRepository _repo;
+
+    public CustomerService(ICustomerRepository repo) => _repo = repo;
+
+    public List<CustomerDTO> GetAll()
     {
-        ICustomerRepository customerRepository;
-        public CustomerSerivce(ICustomerRepository customerRepository)
+        var customers = _repo.GetAll();
+        return customers.Select(c => new CustomerDTO
         {
-            this.customerRepository = customerRepository;
-        }
-        public CustomerDTO Add(VehicleDTO entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CustomerDTO Add(CustomerDTO entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<CustomerDTO> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public CustomerDTO GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
+            Id = c.Id,
+            FullName = c.FullName,
+            Email = c.Email,
+            Phone = c.Phone
+        }).ToList();
     }
+
+    public CustomerDTO GetById(int id)
+    {
+        var c = _repo.GetById(id);
+        if (c == null) return null;
+        return new CustomerDTO
+        {
+            Id = c.Id,
+            FullName = c.FullName,
+            Email = c.Email,
+            Phone = c.Phone
+        };
+    }
+
+    public bool Add(CustomerDTO dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.FullName)) return false;
+        var customer = new Customer
+        {
+            FullName = dto.FullName,
+            Email = dto.Email,
+            Phone = dto.Phone
+        };
+        return _repo.Add(customer);
+    }
+
+    public bool Update(CustomerDTO dto)
+    {
+        var customer = new Customer
+        {
+            Id = dto.Id,
+            FullName = dto.FullName,
+            Email = dto.Email,
+            Phone = dto.Phone
+        };
+        return _repo.Update(customer);
+    }
+
+    public bool Delete(int id) => _repo.Delete(id);
 }
