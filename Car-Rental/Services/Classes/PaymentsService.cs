@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Services.Interfaces;
 using Infrastructure;
+using Infrastructure.DTOs;
 namespace Services.Classes
 {
     public class PaymentsService : IService<PaymentDTO>

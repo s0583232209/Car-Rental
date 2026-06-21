@@ -5,11 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Services.Interfaces;
 using Infrastructure;
+using Infrastructure.DTOs;
+using DAL.Interfaces;
 namespace Services.Classes
 {
     public class CustomerSerivce : IService<CustomerDTO>
     {
+        ICustomerRepository customerRepository;
+        public CustomerSerivce(ICustomerRepository customerRepository)
+        {
+            this.customerRepository = customerRepository;
+        }
         public CustomerDTO Add(VehicleDTO entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CustomerDTO Add(CustomerDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -28,5 +40,7 @@ namespace Services.Classes
         {
             throw new NotImplementedException();
         }
+
+
     }
 }
