@@ -4,9 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Interfaces
+using DAL.Entities;
+
+namespace DAL.Interfaces;
+
+public interface IRentalsRepository
 {
-    internal interface IRentalsRepositorycs
-    {
-    }
+    Task<IEnumerable<Rental>> GetAllAsync();
+    Task<Rental?> GetByIdAsync(int id);
+    Task<IEnumerable<Rental>> GetByCustomerAsync(int customerId);
+    Task AddAsync(Rental rental);
+    Task UpdateAsync(Rental rental);
+    Task DeleteAsync(int id);
 }

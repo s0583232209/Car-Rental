@@ -4,9 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Interfaces
+
+using DAL.Entities;
+
+namespace DAL.Interfaces;
+
+public interface IPaymentRepository
 {
-    internal interface IPaymentRepositotry
-    {
-    }
+    Task<IEnumerable<Payment>> GetAllAsync();
+    Task<Payment?> GetByIdAsync(int id);
+    Task<IEnumerable<Payment>> GetByRentalAsync(int rentalId);
+    Task AddAsync(Payment payment);
 }
