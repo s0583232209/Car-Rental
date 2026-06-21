@@ -19,8 +19,9 @@ public class CustomersController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var customers = _service.GetAll();
-        return Ok(customers);
+        return Ok("get all");
+        //var customers = _service.GetAll();
+        //return Ok(customers);
     }
 
     // GET api/customers/5

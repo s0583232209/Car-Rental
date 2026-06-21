@@ -1,4 +1,4 @@
-////using Infrastructure.Extensions;
+﻿////using Infrastructure.Extensions;
 ////var builder = WebApplication.CreateBuilder(args);
 
 ////// Add services to the container.
@@ -50,6 +50,7 @@
 //app.MapControllers();
 
 //app.Run();
+using Scalar.AspNetCore;  // ← הוסיפי בראש הקובץ
 using AutoMapper;
 using DAL.Data;
 using DAL.Entities;
@@ -87,12 +88,16 @@ builder.Services.AddScoped<IService<CustomerDTO>, CustomerService>();
 builder.Services.AddScoped<IService<VehicleDTO>, VehiclesService>();
 builder.Services.AddScoped<IService<RentalDTO>, RentalService>();
 builder.Services.AddScoped<IService<PaymentDTO>, PaymentService>();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()||true)
 {
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
+
 
 app.UseAuthorization();
 
