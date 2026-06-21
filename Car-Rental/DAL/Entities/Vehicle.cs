@@ -11,7 +11,7 @@ namespace DAL.Entities
         public string Model { get; set; }
         public int Year { get; set; }
         public string LicensePlate { get; set; }
-        public decimal DailyPrice { get; set; }
+        public int DailyPrice { get; set; }
 
         public List<Rental> Rentals { get; set; }
     }

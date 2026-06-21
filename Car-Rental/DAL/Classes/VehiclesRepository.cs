@@ -9,7 +9,7 @@ public class VehicleRepository : IRepository<Vehicle>
 {
     private readonly AppDbContext ctx;
 
-    public VehicleRepository(AppDbContext ctx) => ctx = ctx;
+    public VehicleRepository(AppDbContext ctx) => this.ctx = ctx;
 
     public List<Vehicle> GetAll() =>
         ctx.Vehicles.Include(v => v.Rentals).ToList();

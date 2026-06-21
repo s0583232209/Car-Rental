@@ -8,7 +8,7 @@ namespace Services.DTOs
     {
         public int Id { get; set; }
         public RentalDTO Rental { get; set; }
-        public decimal TotalPrice { get; set; }
+        public int TotalPrice { get; set; }
         public DateTime PaymentDate { get;  set; }
 
     }
