@@ -2,9 +2,9 @@
 
 public interface IRepository<T>
 {
-    List<T> GetAll();
-    T GetById(int id);
-    bool Add(T entity);
-    bool Update(T entity);
-    bool Delete(int id);
+    Task<List<T>> GetAllAsync();
+    Task<T?> GetByIdAsync(int id);
+    Task<bool> AddAsync(T entity);
+    Task<bool> UpdateAsync(T entity);
+    Task<bool> DeleteAsync(int id);
 }
