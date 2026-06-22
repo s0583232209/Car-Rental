@@ -10,7 +10,7 @@ namespace Services.DTOs
         public string Manufacturer { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
-        public decimal DailyPrice { get; set; }
+        public int DailyPrice { get; set; }
         public string LicensePlate { get; set; }
 
 

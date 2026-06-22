@@ -11,7 +11,7 @@ public class MappingProfile : Profile
     {
         // Vehicle
         CreateMap<Vehicle, VehicleDTO>();
-        
+        CreateMap<VehicleDTO, Vehicle>();
 
         // Customer
         CreateMap<Customer, CustomerDTO>();
