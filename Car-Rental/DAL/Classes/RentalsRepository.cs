@@ -11,35 +11,35 @@ public class RentalRepository : IRepository<Rental>
 
     public RentalRepository(AppDbContext ctx) => this.ctx = ctx;
 
-    public List<Rental> GetAll() =>
-        ctx.Rentals
+    public async Task<List<Rental>> GetAllAsync() =>
+        await ctx.Rentals
             .Include(r => r.Customer)
             .Include(r => r.Car)
-            .ToList();
+            .ToListAsync();
 
-    public Rental GetById(int id) =>
-        ctx.Rentals
+    public async Task<Rental?> GetByIdAsync(int id) =>
+        await ctx.Rentals
             .Include(r => r.Customer)
             .Include(r => r.Car)
-            .FirstOrDefault(r => r.Id == id);
+            .FirstOrDefaultAsync(r => r.Id == id);
 
-    public bool Add(Rental rental)
+    public async Task<bool> AddAsync(Rental rental)
     {
         ctx.Rentals.Add(rental);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Update(Rental rental)
+    public async Task<bool> UpdateAsync(Rental rental)
     {
         ctx.Rentals.Update(rental);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var r = ctx.Rentals.Find(id);
+        var r = await ctx.Rentals.FindAsync(id);
         if (r == null) return false;
         ctx.Rentals.Remove(r);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 }

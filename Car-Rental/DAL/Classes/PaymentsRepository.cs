@@ -11,29 +11,29 @@ public class PaymentRepository : IRepository<Payment>
 
     public PaymentRepository(AppDbContext ctx) => ctx = ctx;
 
-    public List<Payment> GetAll() =>
-        ctx.Payments.Include(p => p.Rental).ToList();
+    public async Task<List<Payment>> GetAllAsync() =>
+        await ctx.Payments.Include(p => p.Rental).ToListAsync();
 
-    public Payment GetById(int id) =>
-        ctx.Payments.Find(id);
+    public async Task<Payment?> GetByIdAsync(int id) =>
+        await ctx.Payments.FindAsync(id);
 
-    public bool Add(Payment payment)
+    public async Task<bool> AddAsync(Payment payment)
     {
         ctx.Payments.Add(payment);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Update(Payment payment)
+    public async Task<bool> UpdateAsync(Payment payment)
     {
         ctx.Payments.Update(payment);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var p = ctx.Payments.Find(id);
+        var p = await ctx.Payments.FindAsync(id);
         if (p == null) return false;
         ctx.Payments.Remove(p);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 }

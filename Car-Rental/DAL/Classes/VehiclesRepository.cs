@@ -11,30 +11,30 @@ public class VehicleRepository : IRepository<Vehicle>
 
     public VehicleRepository(AppDbContext ctx) => this.ctx = ctx;
 
-    public List<Vehicle> GetAll() =>
-        ctx.Vehicles.Include(v => v.Rentals).ToList();
+    public async Task<List<Vehicle>> GetAllAsync() =>
+        await ctx.Vehicles.Include(v => v.Rentals).ToListAsync();
 
-    public Vehicle GetById(int id) =>
-        ctx.Vehicles.Include(v => v.Rentals)
-            .FirstOrDefault(v => v.Id == id);
+    public async Task<Vehicle?> GetByIdAsync(int id) =>
+        await ctx.Vehicles.Include(v => v.Rentals)
+            .FirstOrDefaultAsync(v => v.Id == id);
 
-    public bool Add(Vehicle vehicle)
+    public async Task<bool> AddAsync(Vehicle vehicle)
     {
         ctx.Vehicles.Add(vehicle);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Update(Vehicle vehicle)
+    public async Task<bool> UpdateAsync(Vehicle vehicle)
     {
         ctx.Vehicles.Update(vehicle);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var v = ctx.Vehicles.Find(id);
+        var v = await ctx.Vehicles.FindAsync(id);
         if (v == null) return false;
         ctx.Vehicles.Remove(v);
-        return ctx.SaveChanges() > 0;
+        return await ctx.SaveChangesAsync() > 0;
     }
 }
