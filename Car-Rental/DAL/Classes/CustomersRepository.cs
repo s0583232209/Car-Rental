@@ -11,15 +11,16 @@ public class CustomerRepository : IRepository<Customer>
 
     public CustomerRepository(AppDbContext ctx) => this.ctx = ctx;
 
-   	public async Task<List<Customer>> GetAllAsync() => 
+    public async Task<List<Customer>> GetAllAsync() =>
     await ctx.Customers.Include(c => c.Rentals).ToListAsync();
 
-	public async Task<Customer?> GetByIdAsync(int id) => 
+    public async Task<Customer?> GetByIdAsync(int id) =>
     await ctx.Customers.Include(c => c.Rentals).FirstOrDefaultAsync(c => c.Id == id);
 
-	public async Task<bool> AddAsync(Customer customer) {
-        ctx.Customers.Add(customer); 
-        return await ctx.SaveChangesAsync() > 0; 
+    public async Task<bool> AddAsync(Customer customer)
+    {
+        ctx.Customers.Add(customer);
+        return await ctx.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> UpdateAsync(Customer customer)
